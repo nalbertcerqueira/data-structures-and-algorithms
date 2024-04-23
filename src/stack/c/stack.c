@@ -33,6 +33,28 @@ int pop(struct Stack *stack){
     return value;
 }
 
+int peek(struct Stack *stack){
+    if (isEmpty(stack)){
+        printf("Stack is empty!\n");
+        return -1;
+    }
+
+    return stack->values[stack->pointer];
+}
+
+int print(struct Stack *stack){
+    if(isEmpty(stack)){
+        printf("Stack is empty!\n");
+        return -1;
+    }
+
+    for (int i=stack->pointer; i>=0; i--){
+        printf("[ %d ]\n", stack->values[i]);
+    }
+
+    return 0;
+}
+
 int isFull(struct Stack *stack){
     return stack->pointer == STACK_SIZE - 1;
 }

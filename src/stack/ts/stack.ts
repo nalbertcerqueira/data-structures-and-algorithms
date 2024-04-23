@@ -40,11 +40,28 @@ export class Stack {
         return poppedValue
     }
 
+    public peek(): number {
+        return this.props.values[this.props.stackPointer]
+    }
+
     public isEmpty(): boolean {
         return this.props.stackPointer === -1
     }
 
     public isFull(): boolean {
         return this.props.stackPointer === this.props.stackSize - 1
+    }
+
+    public print(): void {
+        if (this.isEmpty()) {
+            throw new Error("Stack is empty")
+        }
+
+        let output = ""
+        for (let i = this.props.values.length - 1; i >= 0; i--) {
+            output += `[ ${this.props.values[i]} ]\n`
+        }
+
+        console.log(output)
     }
 }
