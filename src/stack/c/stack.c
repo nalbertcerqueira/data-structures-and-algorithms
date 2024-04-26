@@ -43,7 +43,7 @@ int peek(struct Stack *stack){
 }
 
 int print(struct Stack *stack){
-    if(isEmpty(stack)){
+    if (isEmpty(stack)){
         printf("Stack is empty!\n");
         return -1;
     }

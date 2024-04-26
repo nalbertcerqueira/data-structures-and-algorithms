@@ -9,7 +9,7 @@ struct Queue* createQueue(){
 }
 
 int enqueue(struct Queue *queue, int value){
-    if(isFull(queue)){
+    if (isFull(queue)){
         printf("Queue is full!\n");
         return -1;
     }
@@ -45,14 +45,14 @@ int peek(struct Queue *queue){
 }
 
 int print(struct Queue *queue){
-    if(isEmpty(queue)){
+    if (isEmpty(queue)){
         printf("Queue is empty!\n");
         return -1;
     }
 
     for (int i = 0; i<queue->itemCount; i++){
         int index = (queue->begin + i) % MAX_QUEUE_SIZE;
-        if(i > 0){
+        if (i > 0){
             printf("-");
         }
         printf("(%d)", queue->items[index]);
