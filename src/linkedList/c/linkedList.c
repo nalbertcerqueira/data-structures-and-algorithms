@@ -125,6 +125,7 @@ int removeNode(int targetId, struct LinkedList *list){
         previous->next = current->next;
     }
 
+    free(current);
     return 0;
 }
 
