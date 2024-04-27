@@ -51,6 +51,7 @@ int print(struct Stack *stack){
     for (int i=stack->pointer; i>=0; i--){
         printf("[ %d ]\n", stack->values[i]);
     }
+    printf("\n");
 
     return 0;
 }
