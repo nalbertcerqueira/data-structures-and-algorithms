@@ -1,5 +1,5 @@
-export interface INode {
+export interface INode<Type> {
     readonly id: number
-    value: number
-    next: INode | null
+    value: Type
+    next: INode<Type> | null
 }

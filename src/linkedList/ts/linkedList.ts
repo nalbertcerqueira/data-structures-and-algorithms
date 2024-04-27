@@ -1,27 +1,23 @@
 import { INode } from "./types"
 import { EmptyLinkedListError, IvalidFieldError, NotFoundError } from "./utils"
 
-export class Node implements INode {
+export class Node<Type> implements INode<Type> {
     constructor(
         public id: number,
-        public value: number,
-        public next: INode | null
+        public value: Type,
+        public next: INode<Type> | null
     ) {}
 }
 
-export class LinkedList {
+export class LinkedList<Type> {
     private nextId: number = 0
-    private head: INode | null
+    private head: INode<Type> | null
 
     constructor() {
         this.head = null
     }
 
-    public addFirst(value: number): number {
-        if (typeof value !== "number") {
-            throw new IvalidFieldError("Value")
-        }
-
+    public addFirst(value: Type): number {
         this.nextId += 1
         const node = new Node(this.nextId, value, null)
 
@@ -35,11 +31,7 @@ export class LinkedList {
         return node.id
     }
 
-    public addLast(value: number): number {
-        if (typeof value !== "number") {
-            throw new IvalidFieldError("Value")
-        }
-
+    public addLast(value: Type): number {
         this.nextId += 1
         const node = new Node(this.nextId, value, null)
 
@@ -56,10 +48,8 @@ export class LinkedList {
         return node.id
     }
 
-    public addAfter(value: number, targetId: number): number {
-        if (typeof value !== "number") {
-            throw new IvalidFieldError("Value")
-        } else if (typeof targetId !== "number") {
+    public addAfter(value: Type, targetId: number): number {
+        if (typeof targetId !== "number") {
             throw new IvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
@@ -75,16 +65,14 @@ export class LinkedList {
             current = current.next
         }
 
-        const node = new Node(this.nextId, value, current.next)
+        const node = new Node<Type>(this.nextId, value, current.next)
         current.next = node
 
         return node.id
     }
 
-    public addBefore(value: number, targetId: number): number {
-        if (typeof value !== "number") {
-            throw new IvalidFieldError("Value")
-        } else if (typeof targetId !== "number") {
+    public addBefore(value: Type, targetId: number): number {
+        if (typeof targetId !== "number") {
             throw new IvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
@@ -102,7 +90,7 @@ export class LinkedList {
             current = current.next
         }
 
-        const node = new Node(this.nextId, value, current)
+        const node = new Node<Type>(this.nextId, value, current)
         previous ? (previous.next = node) : (this.head = node)
 
         return node.id
@@ -133,7 +121,7 @@ export class LinkedList {
         }
     }
 
-    public update(targetId: number, value: number): void {
+    public update(targetId: number, value: Type): void {
         if (this.head === null) {
             throw new EmptyLinkedListError()
         }
@@ -154,7 +142,7 @@ export class LinkedList {
         return this.head === null
     }
 
-    public find(targetId: number): Pick<Node, "id" | "value"> {
+    public find(targetId: number): Pick<INode<Type>, "id" | "value"> {
         if (typeof targetId !== "number") {
             throw new IvalidFieldError("TargetId")
         } else if (this.head === null) {
