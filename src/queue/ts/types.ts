@@ -1,7 +1,7 @@
-export interface QueueProps {
-    items: number[]
-    itemCount: number
-    begin: number
+export interface CircularQueueProps<Type> {
     end: number
-    maxSize: number
+    begin: number
+    size: number
+    items: Type[]
+    itemCount: number
 }
