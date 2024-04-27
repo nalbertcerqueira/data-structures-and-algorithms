@@ -1,7 +1,8 @@
 import { StackProps } from "./types"
+import { EmptyStackError, FullStackError } from "./utils"
 
-export class Stack {
-    private props: StackProps
+export class Stack<Type> {
+    private props: StackProps<Type>
 
     constructor(stackSize: number) {
         if (typeof stackSize !== "number") {
@@ -11,55 +12,55 @@ export class Stack {
         }
 
         this.props = {
-            stackSize,
-            values: [],
-            stackPointer: -1
+            size: stackSize,
+            values: []
         }
     }
 
-    public push(value: number): void {
-        if (typeof value !== "number") {
-            throw new Error("Value must be a number")
-        } else if (this.props.stackPointer === this.props.stackSize - 1) {
-            throw new Error("Stack is full")
+    public push(value: Type): void {
+        if (this.isFull()) {
+            throw new FullStackError()
         }
 
-        this.props.stackPointer++
-        this.props.values[this.props.stackPointer] = value
+        const stackPointer = this.props.values.length
+        this.props.values[stackPointer] = value
     }
 
-    public pop(): number {
-        if (this.props.stackPointer === -1) {
-            throw new Error("Stack is empty")
+    public pop(): Type {
+        if (this.isEmpty()) {
+            throw new EmptyStackError()
         }
 
-        const poppedValue = this.props.values[this.props.stackPointer]
+        const stackPointer = this.props.values.length - 1
+        const poppedValue = this.props.values[stackPointer]
         this.props.values.length -= 1
-        this.props.stackPointer -= 1
 
         return poppedValue
     }
 
-    public peek(): number {
-        return this.props.values[this.props.stackPointer]
+    public peek(): Type {
+        if (this.isEmpty()) {
+            throw new EmptyStackError()
+        }
+        return this.props.values[this.props.values.length - 1]
     }
 
     public isEmpty(): boolean {
-        return this.props.stackPointer === -1
+        return this.props.values.length === 0
     }
 
     public isFull(): boolean {
-        return this.props.stackPointer === this.props.stackSize - 1
+        return this.props.values.length === this.props.size
     }
 
     public print(): void {
         if (this.isEmpty()) {
-            throw new Error("Stack is empty")
+            throw new EmptyStackError()
         }
 
         let output = ""
         for (let i = this.props.values.length - 1; i >= 0; i--) {
-            output += `[ ${this.props.values[i]} ]\n`
+            output += `[ ${JSON.stringify(this.props.values[i])} ]\n`
         }
 
         console.log(output)
