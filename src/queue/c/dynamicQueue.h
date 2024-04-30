@@ -3,21 +3,22 @@ struct Node{
     struct Node *next;
 };
 
-struct DynamicStack{
+struct DynamicQueue{
     struct Node *head;
+    struct Node *tail;
 };
 
-struct DynamicStack* createQueue();
+struct DynamicQueue* createQueue();
 
-int enqueue(struct DynamicStack *queue, int value);
+int enqueue(struct DynamicQueue *queue, int value);
 
-int dequeue(struct DynamicStack *queue);
+int dequeue(struct DynamicQueue *queue);
 
-int peek(struct DynamicStack *queue);
+int peek(struct DynamicQueue *queue);
 
-int print(struct DynamicStack *queue);
+int print(struct DynamicQueue *queue);
 
-int isFull(struct DynamicStack *queue);
+int isFull(struct DynamicQueue *queue);
 
-int isEmpty(struct DynamicStack *queue);
+int isEmpty(struct DynamicQueue *queue);
 

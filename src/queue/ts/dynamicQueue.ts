@@ -10,27 +10,27 @@ class Node<Type> implements INode<Type> {
 
 export class DynamicQueue<Type> {
     private head: INode<Type> | null
+    private tail: INode<Type> | null
 
     constructor() {
         this.head = null
+        this.tail = null
     }
 
     public enqueue(value: Type): void {
         const node = new Node(value, null)
 
-        if (this.head === null) {
+        if (this.head === null || this.tail === null) {
             this.head = node
+            this.tail = node
         } else {
-            let current = this.head
-            while (current.next !== null) {
-                current = current.next
-            }
-            current.next = node
+            this.tail.next = node
+            this.tail = node
         }
     }
 
     public dequeue(): Type {
-        if (this.head === null) {
+        if (this.head === null || this.tail === null) {
             throw new EmptyQueueError()
         }
 

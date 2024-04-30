@@ -3,12 +3,15 @@
 #include "dynamicQueue.h"
 
 
-struct DynamicStack* createQueue(){
-    struct DynamicStack *queue = malloc(sizeof(struct DynamicStack));
+struct DynamicQueue* createQueue(){
+    struct DynamicQueue *queue = malloc(sizeof(struct DynamicQueue));
+    queue->head = NULL;
+    queue->tail = NULL;
+
     return queue;
 }
 
-int enqueue(struct DynamicStack *queue, int value){
+int enqueue(struct DynamicQueue *queue, int value){
     struct Node *current = queue->head;
     struct Node *node = malloc(sizeof(struct Node));
 
@@ -17,17 +20,16 @@ int enqueue(struct DynamicStack *queue, int value){
 
     if (isEmpty(queue)){
         queue->head = node;
+        queue->tail = node;
     } else {
-        while (current->next != NULL){
-            current = current->next;
-        }
-        current->next = node;
+        queue->tail->next = node;
+        queue->tail = node;
     }
 
     return 0;
 }
 
-int dequeue(struct DynamicStack *queue){
+int dequeue(struct DynamicQueue *queue){
     if (isEmpty(queue)){
         printf("Queue is empty!\n");
         return -1;
@@ -42,7 +44,7 @@ int dequeue(struct DynamicStack *queue){
     return value;
 }
 
-int peek(struct DynamicStack *queue){
+int peek(struct DynamicQueue *queue){
     if (isEmpty(queue)){
         printf("Queue is empty!\n");
         return -1;
@@ -51,7 +53,7 @@ int peek(struct DynamicStack *queue){
     return queue->head->value;
 }
 
-int print(struct DynamicStack *queue){
+int print(struct DynamicQueue *queue){
     if (isEmpty(queue)){
         printf("Queue is empty!\n");
         return -1;
@@ -71,8 +73,6 @@ int print(struct DynamicStack *queue){
     return 0;
 }
 
-int isEmpty(struct DynamicStack *queue){
+int isEmpty(struct DynamicQueue *queue){
     return queue->head == NULL;
 }
-
-

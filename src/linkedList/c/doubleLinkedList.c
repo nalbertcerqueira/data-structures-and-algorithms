@@ -20,7 +20,7 @@ int addFirst(int value, struct DoubleLinkedList *list){
     node->prev = NULL;
     node->next = NULL;
 
-    if (list->head == NULL) {
+    if (list->head == NULL || list->tail == NULL) {
         list->head = node;
         list->tail = node;
     } else {
