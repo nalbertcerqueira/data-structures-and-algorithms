@@ -1,8 +1,8 @@
-export class IvalidFieldError extends Error {
+export class InvalidFieldError extends Error {
     constructor(name: string) {
         super()
         this.message = `${name} must be a number`
-        this.name = "IvalidFieldError"
+        this.name = "InvalidFieldError"
     }
 }
 

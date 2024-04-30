@@ -28,3 +28,5 @@ int updateNode(int targetId, int value, struct LinkedList *list);
 int isEmpty(struct LinkedList *list);
 
 int print(struct LinkedList *list);
+
+static struct Node* searchNode(int targetId, struct LinkedList *list);

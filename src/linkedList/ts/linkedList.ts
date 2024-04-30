@@ -1,9 +1,9 @@
 import { INode } from "./types"
-import { EmptyLinkedListError, IvalidFieldError, NotFoundError } from "./utils"
+import { EmptyLinkedListError, InvalidFieldError, NotFoundError } from "./utils"
 
 export class Node<Type> implements INode<Type> {
     constructor(
-        public id: number,
+        public readonly id: number,
         public value: Type,
         public next: INode<Type> | null
     ) {}
@@ -21,7 +21,7 @@ export class LinkedList<Type> {
         this.nextId += 1
         const node = new Node(this.nextId, value, null)
 
-        if (this.head === null) {
+        if (this.head !== null) {
             this.head = node
         } else {
             node.next = this.head
@@ -50,7 +50,7 @@ export class LinkedList<Type> {
 
     public addAfter(value: Type, targetId: number): number {
         if (typeof targetId !== "number") {
-            throw new IvalidFieldError("TargetId")
+            throw new InvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
         }
@@ -73,7 +73,7 @@ export class LinkedList<Type> {
 
     public addBefore(value: Type, targetId: number): number {
         if (typeof targetId !== "number") {
-            throw new IvalidFieldError("TargetId")
+            throw new InvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
         }
@@ -96,9 +96,9 @@ export class LinkedList<Type> {
         return node.id
     }
 
-    public remove(targetId: number): void {
+    public remove(targetId: number): Type {
         if (typeof targetId !== "number") {
-            throw new IvalidFieldError("TargetId")
+            throw new InvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
         }
@@ -119,23 +119,14 @@ export class LinkedList<Type> {
         } else {
             this.head = current.next
         }
+
+        return current.value
     }
 
-    public update(targetId: number, value: Type): void {
-        if (this.head === null) {
-            throw new EmptyLinkedListError()
-        }
-
-        let current = this.head
-
-        while (current.id !== targetId) {
-            if (current.next === null) {
-                throw new NotFoundError()
-            }
-            current = current.next
-        }
-
-        current.value = value
+    public update(targetId: number, value: Type): Pick<INode<Type>, "id" | "value"> {
+        const foundNode = this.search(targetId)
+        foundNode.value = value
+        return { id: foundNode.id, value: foundNode.value }
     }
 
     public isEmpty(): boolean {
@@ -143,8 +134,17 @@ export class LinkedList<Type> {
     }
 
     public find(targetId: number): Pick<INode<Type>, "id" | "value"> {
+        const foundNode = this.search(targetId)
+        return { id: foundNode.id, value: foundNode.value }
+    }
+
+    public print(): void {
+        console.log(JSON.stringify(this.head, null, 2))
+    }
+
+    private search(targetId: number): INode<Type> {
         if (typeof targetId !== "number") {
-            throw new IvalidFieldError("TargetId")
+            throw new InvalidFieldError("TargetId")
         } else if (this.head === null) {
             throw new EmptyLinkedListError()
         }
@@ -157,10 +157,6 @@ export class LinkedList<Type> {
             current = current.next
         }
 
-        return { id: current.id, value: current.value }
-    }
-
-    public print(): void {
-        console.log(JSON.stringify(this.head, null, 2))
+        return current
     }
 }

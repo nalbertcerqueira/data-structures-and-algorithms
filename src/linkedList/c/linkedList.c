@@ -77,26 +77,17 @@ int addBefore(int targetId, int value, struct LinkedList *list){
 }
 
 int addAfter(int targetId, int value, struct LinkedList *list){
-    if (isEmpty(list)){
-        printf("Linked list is empty\n");
+    struct Node *foundNode = searchNode(targetId, list);
+    if  (!foundNode){
         return -1;
-    }
-
-    struct Node *current = list->head;
-
-    while (current->id != targetId){
-        if (current->next == NULL){
-            printf("Node not found\n");
-        }
-        current = current->next;
     }
 
     struct Node *node = malloc(sizeof(struct Node));
     list->nextId +=1;
     node->id = list->nextId;
     node->value = value;
-    node->next = current->next;
-    current->next = node;
+    node->next = foundNode->next;
+    foundNode->next = node;
 
     return node->id;
 }
@@ -130,41 +121,21 @@ int removeNode(int targetId, struct LinkedList *list){
 }
 
 int getNode(int targetId, struct LinkedList *list){
-    if (isEmpty(list)){
-        printf("Linked list is empty");
+    struct Node *foundNode = searchNode(targetId, list);
+    if(!foundNode){
         return -1;
     }
 
-    struct Node *current = list->head;
-
-    while (current->id != targetId){
-        if (current->next == NULL){
-            printf("Node not found\n");
-            return -1;
-        }
-        current = current->next;
-    }
-
-    return current->value;
+    return foundNode->value;
 }
 
 int updateNode(int targetId, int value, struct LinkedList *list){
-    if (isEmpty(list)){
-        printf("Linked list is empty");
+    struct Node *foundNode = searchNode(targetId, list);
+    if(!foundNode){
         return -1;
     }
 
-    struct Node *current = list->head;
-
-    while (current->id != targetId){
-        if (current->next == NULL){
-            printf("Node not found\n");
-            return -1;
-        }
-        current = current->next;
-    }
-
-    current->value = value;
+    foundNode->value = value;
     return 0;
 }
 
@@ -187,4 +158,23 @@ int print(struct LinkedList *list){
     printf("\n");
 
     return 0;
+}
+
+static struct Node* searchNode(int targetId, struct LinkedList *list){
+    if (isEmpty(list)){
+        printf("Linked list is empty\n");
+        return NULL;
+    }
+
+    struct Node *current = list->head;
+
+    while (current->id != targetId){
+        if (current->next == NULL){
+            printf("Node not found\n");
+            return NULL;
+        }
+        current = current->next;
+    }
+
+    return current;
 }
