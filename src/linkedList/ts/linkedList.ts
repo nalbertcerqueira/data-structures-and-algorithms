@@ -129,6 +129,24 @@ export class LinkedList<Type> {
         return { id: foundNode.id, value: foundNode.value }
     }
 
+    public reverse(): void {
+        let listRef = this.head
+        this.head = null
+
+        while (listRef) {
+            const node = new Node<Type>(listRef.id, listRef.value, null)
+
+            if (this.head === null) {
+                this.head = node
+            } else {
+                node.next = this.head
+                this.head = node
+            }
+
+            listRef = listRef.next
+        }
+    }
+
     public isEmpty(): boolean {
         return this.head === null
     }

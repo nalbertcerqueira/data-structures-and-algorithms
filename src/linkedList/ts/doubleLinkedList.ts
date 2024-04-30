@@ -30,7 +30,7 @@ export class DoubleLinkedList<Type> {
         this.nextId += 1
         const node = new DoubleNode({ id: this.nextId, value, prev: null, next: null })
 
-        if (this.head === null) {
+        if (this.head === null || this.tail === null) {
             this.head = node
             this.tail = node
         } else {
@@ -46,13 +46,11 @@ export class DoubleLinkedList<Type> {
         this.nextId += 1
         const node = new DoubleNode({ id: this.nextId, value, next: null, prev: null })
 
-        if (this.head === null) {
+        if (this.head === null || this.tail === null) {
             this.head = node
             this.tail = node
         } else {
-            if (this.tail) {
-                this.tail.next = node
-            }
+            this.tail.next = node
             node.prev = this.tail
             this.tail = node
         }
@@ -123,6 +121,32 @@ export class DoubleLinkedList<Type> {
         const foundNode = this.search(targetId)
         foundNode.value = value
         return { id: foundNode.id, value: foundNode.value }
+    }
+
+    public reverse(): void {
+        let listRef = this.head
+        this.head = null
+
+        while (listRef) {
+            const node = new DoubleNode<Type>({
+                id: listRef.id,
+                value: listRef.value,
+                next: null,
+                prev: null
+            })
+
+            if (this.head === null || this.tail === null) {
+                this.head = node
+                this.tail = node
+            } else {
+                this.head.prev = node
+                node.next = this.head
+                node.prev = null
+                this.head = node
+            }
+
+            listRef = listRef.next
+        }
     }
 
     public isEmpty(): boolean {
