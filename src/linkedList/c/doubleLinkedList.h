@@ -27,6 +27,8 @@ int getNode(int targetId, struct DoubleLinkedList *list);
 
 int updateNode(int targetId, int value, struct DoubleLinkedList *list);
 
+int reverse(struct DoubleLinkedList *list);
+
 int isEmpty(struct DoubleLinkedList *list);
 
 int print(struct DoubleLinkedList *list);

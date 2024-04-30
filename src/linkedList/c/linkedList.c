@@ -139,6 +139,36 @@ int updateNode(int targetId, int value, struct LinkedList *list){
     return 0;
 }
 
+int reverse(struct LinkedList *list){
+    if (isEmpty(list)){
+        printf("Linked list is empty\n");
+        return -1;
+    }
+
+    struct Node *listRef = list->head;
+    struct Node *current;
+    list->head = NULL;
+
+    while (listRef != NULL) {
+        struct Node *node = malloc(sizeof(struct Node));
+        node->id = listRef->id;
+        node->value = listRef->value;
+        node->next = NULL;
+
+        if (list->head == NULL){
+            list->head = node;
+        } else {
+            node->next = list->head;
+            list->head = node;
+        }
+        current = listRef;
+        listRef = listRef->next;
+        free(current);
+    }
+
+    return 0;
+}
+
 int isEmpty(struct LinkedList *list){
     return list->head == NULL ? 1 : 0;
 }

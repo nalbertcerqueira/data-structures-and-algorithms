@@ -42,13 +42,11 @@ int addLast(int value, struct DoubleLinkedList *list){
     node->next = NULL;
     node->prev = NULL;
 
-    if (list->head == NULL) {
+    if (list->head == NULL || list->tail == NULL) {
         list->head = node;
         list->tail = node;
     } else {
-        if (list->tail) {
-            list->tail->next = node;
-        }
+        list->tail->next = node;
         node->prev = list->tail;
         list->tail = node;
     }
@@ -154,6 +152,40 @@ int updateNode(int targetId, int value, struct DoubleLinkedList *list){
     }
 
     foundNode->value = value;
+    return 0;
+}
+
+int reverse(struct DoubleLinkedList *list){
+    if (isEmpty(list)){
+        printf("Linked list is empty\n");
+        return -1;
+    }
+
+    struct DoubleNode *listRef = list->head;
+    struct DoubleNode *current;
+    list->head = NULL;
+
+    while (listRef != NULL) {
+        struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
+        node->id = listRef->id;
+        node->value = listRef->value;
+        node->prev = NULL;
+        node->next = NULL;
+
+        if (list->head == NULL){
+            list->head = node;
+            list->tail = node;
+        } else {
+            list->head->prev = node;
+            node->next = list->head;
+            node->prev = NULL;
+            list->head = node;
+        }
+        current = listRef;
+        listRef = listRef->next;
+        free(current);
+    }
+
     return 0;
 }
 

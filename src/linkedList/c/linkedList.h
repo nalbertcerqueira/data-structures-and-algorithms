@@ -25,6 +25,8 @@ int getNode(int targetId, struct LinkedList *list);
 
 int updateNode(int targetId, int value, struct LinkedList *list);
 
+int reverse(struct LinkedList *list);
+
 int isEmpty(struct LinkedList *list);
 
 int print(struct LinkedList *list);
