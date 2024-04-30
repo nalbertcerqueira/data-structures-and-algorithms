@@ -4,9 +4,9 @@ export interface INode<Type> {
     next: INode<Type> | null
 }
 
-export interface IDoubleNode<Type> {
+export interface IDoublyNode<Type> {
     readonly id: number
     value: Type
-    prev: IDoubleNode<Type> | null
-    next: IDoubleNode<Type> | null
+    prev: IDoublyNode<Type> | null
+    next: IDoublyNode<Type> | null
 }

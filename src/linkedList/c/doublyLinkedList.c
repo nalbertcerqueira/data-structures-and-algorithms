@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "doubleLinkedList.h"
+#include "doublyLinkedList.h"
 
-struct DoubleLinkedList* createDoubleLinkedList(){
-    struct DoubleLinkedList *list = malloc(sizeof(struct DoubleLinkedList));
+struct DoublyLinkedList* createDoublyLinkedList(){
+    struct DoublyLinkedList *list = malloc(sizeof(struct DoublyLinkedList));
     list->nextId = 0;
     list->head = NULL;
     list->tail = NULL;
@@ -11,8 +11,8 @@ struct DoubleLinkedList* createDoubleLinkedList(){
     return list;
 }
 
-int addFirst(int value, struct DoubleLinkedList *list){
-    struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
+int addFirst(int value, struct DoublyLinkedList *list){
+    struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
 
     list->nextId +=1;
     node->id = list->nextId;
@@ -32,9 +32,9 @@ int addFirst(int value, struct DoubleLinkedList *list){
     return node->id;
 }
 
-int addLast(int value, struct DoubleLinkedList *list){
-    struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
-    struct DoubleNode *current = list->head;
+int addLast(int value, struct DoublyLinkedList *list){
+    struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
+    struct DoublyNode *current = list->head;
 
     list->nextId+=1;
     node->id = list->nextId;
@@ -54,14 +54,14 @@ int addLast(int value, struct DoubleLinkedList *list){
     return node->id;
 }
 
-int addBefore(int targetId, int value, struct DoubleLinkedList *list){
-    struct DoubleNode *foundNode = searchNode(targetId, list);
+int addBefore(int targetId, int value, struct DoublyLinkedList *list){
+    struct DoublyNode *foundNode = searchNode(targetId, list);
     if(!foundNode){
         return -1;
     }
 
-    struct DoubleNode *previousNode = foundNode->prev;
-    struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
+    struct DoublyNode *previousNode = foundNode->prev;
+    struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
 
     list->nextId+=1;
     node->id = list->nextId;
@@ -80,14 +80,14 @@ int addBefore(int targetId, int value, struct DoubleLinkedList *list){
     return node->id;
 }
 
-int addAfter(int targetId, int value, struct DoubleLinkedList *list){
-    struct DoubleNode *foundNode = searchNode(targetId, list);
+int addAfter(int targetId, int value, struct DoublyLinkedList *list){
+    struct DoublyNode *foundNode = searchNode(targetId, list);
     if(!foundNode){
         return -1;
     }
 
-    struct DoubleNode *nextNode = foundNode->next;
-    struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
+    struct DoublyNode *nextNode = foundNode->next;
+    struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
 
     list->nextId +=1;
     node->id = list->nextId;
@@ -106,14 +106,14 @@ int addAfter(int targetId, int value, struct DoubleLinkedList *list){
     return node->id;
 }
 
-int removeNode(int targetId, struct DoubleLinkedList *list){
-    struct DoubleNode *foundNode = searchNode(targetId, list);
+int removeNode(int targetId, struct DoublyLinkedList *list){
+    struct DoublyNode *foundNode = searchNode(targetId, list);
     if(!foundNode){
         return -1;
     }
 
-    struct DoubleNode *previousNode = foundNode->prev;
-    struct DoubleNode *nextNode = foundNode->next;
+    struct DoublyNode *previousNode = foundNode->prev;
+    struct DoublyNode *nextNode = foundNode->next;
 
      if (previousNode) {
         previousNode->next = foundNode->next;
@@ -136,8 +136,8 @@ int removeNode(int targetId, struct DoubleLinkedList *list){
     return 0;
 }
 
-int getNode(int targetId, struct DoubleLinkedList *list){
-    struct DoubleNode *foundNode = searchNode(targetId, list);
+int getNode(int targetId, struct DoublyLinkedList *list){
+    struct DoublyNode *foundNode = searchNode(targetId, list);
     if(!foundNode){
         return -1;
     }
@@ -145,8 +145,8 @@ int getNode(int targetId, struct DoubleLinkedList *list){
     return foundNode->value;
 }
 
-int updateNode(int targetId, int value, struct DoubleLinkedList *list){
-    struct DoubleNode *foundNode = searchNode(targetId, list);
+int updateNode(int targetId, int value, struct DoublyLinkedList *list){
+    struct DoublyNode *foundNode = searchNode(targetId, list);
     if(!foundNode){
         return -1;
     }
@@ -155,18 +155,18 @@ int updateNode(int targetId, int value, struct DoubleLinkedList *list){
     return 0;
 }
 
-int reverse(struct DoubleLinkedList *list){
+int reverse(struct DoublyLinkedList *list){
     if (isEmpty(list)){
         printf("Linked list is empty\n");
         return -1;
     }
 
-    struct DoubleNode *listRef = list->head;
-    struct DoubleNode *current;
+    struct DoublyNode *listRef = list->head;
+    struct DoublyNode *current;
     list->head = NULL;
 
     while (listRef != NULL) {
-        struct DoubleNode *node = malloc(sizeof(struct DoubleNode));
+        struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
         node->id = listRef->id;
         node->value = listRef->value;
         node->prev = NULL;
@@ -189,17 +189,17 @@ int reverse(struct DoubleLinkedList *list){
     return 0;
 }
 
-int isEmpty(struct DoubleLinkedList *list){
+int isEmpty(struct DoublyLinkedList *list){
     return (list->head == NULL || list->tail == NULL) ? 1 : 0;
 }
 
-int print(struct DoubleLinkedList *list){
+int print(struct DoublyLinkedList *list){
     if (isEmpty(list)){
         printf("%p\n", NULL);
         return -1;
     }
 
-    struct DoubleNode *current = list->head;
+    struct DoublyNode *current = list->head;
 
     printf("-> head: {id: %d, value: %d}\n", list->head->id, list->head->value);
     while (current != NULL){
@@ -211,14 +211,14 @@ int print(struct DoubleLinkedList *list){
     return 0;
 }
 
-static struct DoubleNode* searchNode(int targetId, struct DoubleLinkedList *list){
+static struct DoublyNode* searchNode(int targetId, struct DoublyLinkedList *list){
     if (isEmpty(list)){
         printf("Linked list is empty\n");
         return NULL;
     }
 
-    struct DoubleNode *frontNode = list->head;
-    struct DoubleNode *backNode = list->tail;
+    struct DoublyNode *frontNode = list->head;
+    struct DoublyNode *backNode = list->tail;
 
     while (frontNode->id != targetId && backNode->id != targetId){
         if (frontNode == backNode){

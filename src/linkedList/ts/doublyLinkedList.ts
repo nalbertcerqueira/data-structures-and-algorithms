@@ -1,13 +1,13 @@
-import { IDoubleNode } from "./types"
+import { IDoublyNode } from "./types"
 import { EmptyLinkedListError, NotFoundError, InvalidFieldError } from "./utils"
 
-export class DoubleNode<Type> implements IDoubleNode<Type> {
+export class DoublyNode<Type> implements IDoublyNode<Type> {
     public readonly id: number
     public value: Type
-    public prev: IDoubleNode<Type> | null
-    public next: IDoubleNode<Type> | null
+    public prev: IDoublyNode<Type> | null
+    public next: IDoublyNode<Type> | null
 
-    constructor({ id, value, next, prev }: IDoubleNode<Type>) {
+    constructor({ id, value, next, prev }: IDoublyNode<Type>) {
         this.id = id
         this.value = value
         this.prev = prev
@@ -15,10 +15,10 @@ export class DoubleNode<Type> implements IDoubleNode<Type> {
     }
 }
 
-export class DoubleLinkedList<Type> {
+export class DoublyLinkedList<Type> {
     private nextId: number
-    private head: IDoubleNode<Type> | null
-    private tail: IDoubleNode<Type> | null
+    private head: IDoublyNode<Type> | null
+    private tail: IDoublyNode<Type> | null
 
     constructor() {
         this.nextId = 0
@@ -28,7 +28,7 @@ export class DoubleLinkedList<Type> {
 
     public addFirst(value: Type): number {
         this.nextId += 1
-        const node = new DoubleNode({ id: this.nextId, value, prev: null, next: null })
+        const node = new DoublyNode({ id: this.nextId, value, prev: null, next: null })
 
         if (this.head === null || this.tail === null) {
             this.head = node
@@ -44,7 +44,7 @@ export class DoubleLinkedList<Type> {
 
     public addLast(value: Type): number {
         this.nextId += 1
-        const node = new DoubleNode({ id: this.nextId, value, next: null, prev: null })
+        const node = new DoublyNode({ id: this.nextId, value, next: null, prev: null })
 
         if (this.head === null || this.tail === null) {
             this.head = node
@@ -62,7 +62,7 @@ export class DoubleLinkedList<Type> {
         const foundNode = this.search(targetId)
         const nextNode = foundNode.next
         this.nextId += 1
-        const node = new DoubleNode({ id: this.nextId, value, prev: null, next: null })
+        const node = new DoublyNode({ id: this.nextId, value, prev: null, next: null })
 
         node.prev = foundNode
         node.next = foundNode.next
@@ -81,7 +81,7 @@ export class DoubleLinkedList<Type> {
         const foundNode = this.search(targetId)
         const previousNode = foundNode.prev
         this.nextId += 1
-        const node = new DoubleNode({ id: this.nextId, value, prev: null, next: null })
+        const node = new DoublyNode({ id: this.nextId, value, prev: null, next: null })
 
         node.next = foundNode
         foundNode.prev = node
@@ -117,7 +117,7 @@ export class DoubleLinkedList<Type> {
         return foundNode.value
     }
 
-    public update(targetId: number, value: Type): Pick<IDoubleNode<Type>, "id" | "value"> {
+    public update(targetId: number, value: Type): Pick<IDoublyNode<Type>, "id" | "value"> {
         const foundNode = this.search(targetId)
         foundNode.value = value
         return { id: foundNode.id, value: foundNode.value }
@@ -128,7 +128,7 @@ export class DoubleLinkedList<Type> {
         this.head = null
 
         while (listRef) {
-            const node = new DoubleNode<Type>({
+            const node = new DoublyNode<Type>({
                 id: listRef.id,
                 value: listRef.value,
                 next: null,
@@ -153,7 +153,7 @@ export class DoubleLinkedList<Type> {
         return this.head === null || this.tail === null
     }
 
-    public find(targetId: number): Pick<IDoubleNode<Type>, "id" | "value"> {
+    public find(targetId: number): Pick<IDoublyNode<Type>, "id" | "value"> {
         const foundNode = this.search(targetId)
         return { id: foundNode.id, value: foundNode.value }
     }
@@ -176,7 +176,7 @@ export class DoubleLinkedList<Type> {
         )
     }
 
-    private search(targetId: number): IDoubleNode<Type> {
+    private search(targetId: number): IDoublyNode<Type> {
         if (typeof targetId !== "number") {
             throw new InvalidFieldError("TargetId")
         } else if (this.head === null || this.tail === null) {
@@ -190,8 +190,8 @@ export class DoubleLinkedList<Type> {
             if (frontNode === backNode) {
                 throw new NotFoundError()
             }
-            frontNode = frontNode.next as DoubleNode<Type>
-            backNode = backNode.prev as DoubleNode<Type>
+            frontNode = frontNode.next as DoublyNode<Type>
+            backNode = backNode.prev as DoublyNode<Type>
         }
 
         const foundNode = frontNode?.id === targetId ? frontNode : backNode
