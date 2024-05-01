@@ -3,8 +3,21 @@
 #include "queue.h"
 
 
-struct Queue* createQueue(){
+struct Queue* createQueue(int size){
+    if (size <= 0){
+        printf("Size must be greater than 0!\n");
+        return NULL;
+    }
+
+    int *items = malloc(sizeof(int)*size);
     struct Queue *queue = malloc(sizeof(struct Queue));
+
+    queue->items = items;
+    queue->itemCount = 0;
+    queue->size = size;
+    queue->begin = 0;
+    queue->end = 0;
+
     return queue;
 }
 
@@ -16,7 +29,7 @@ int enqueue(struct Queue *queue, int value){
 
     queue->items[queue->end] = value;
     queue->itemCount += 1;
-    queue->end = (queue->end + 1) % MAX_QUEUE_SIZE;
+    queue->end = (queue->end + 1) % queue->size;
 
     return 0;
 }
@@ -29,7 +42,7 @@ int dequeue(struct Queue *queue){
 
     int value = queue->items[queue->begin];
     queue->itemCount -= 1;
-    queue->begin = (queue->begin + 1) % MAX_QUEUE_SIZE;
+    queue->begin = (queue->begin + 1) % queue->size;
 
     return value;
 
@@ -51,7 +64,7 @@ int print(struct Queue *queue){
     }
 
     for (int i = 0; i<queue->itemCount; i++){
-        int index = (queue->begin + i) % MAX_QUEUE_SIZE;
+        int index = (queue->begin + i) % queue->size;
         if (i > 0){
             printf("-");
         }
@@ -63,10 +76,9 @@ int print(struct Queue *queue){
 }
 
 int isFull(struct Queue *queue){
-    return queue->itemCount == MAX_QUEUE_SIZE;
+    return queue->itemCount == queue->size;
 }
 
 int isEmpty(struct Queue *queue){
     return queue->itemCount == 0;
 }
-

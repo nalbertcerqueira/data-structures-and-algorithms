@@ -1,8 +1,6 @@
-
-#define MAX_QUEUE_SIZE 10
-
 struct Queue{
-   int items[MAX_QUEUE_SIZE];
+   int size;
+   int *items;
    int itemCount;
    int begin;
    int end;
