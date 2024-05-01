@@ -18,7 +18,5 @@ int peek(struct DynamicQueue *queue);
 
 int print(struct DynamicQueue *queue);
 
-int isFull(struct DynamicQueue *queue);
-
 int isEmpty(struct DynamicQueue *queue);
 
