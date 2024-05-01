@@ -2,9 +2,17 @@
 #include <stdlib.h>
 #include "stack.h"
 
-struct Stack* createStack(){
+struct Stack* createStack(int size){
+    if (size <= 0){
+        printf("Size must be greater than 0!\n");
+        return NULL;
+    }
+
+    int *values = malloc(sizeof(int)*size);
     struct Stack *stack = malloc(sizeof(struct Stack));
+    stack->size = size;
     stack->pointer = -1;
+    stack->values = values;
 
     return stack;
 }
@@ -57,9 +65,10 @@ int print(struct Stack *stack){
 }
 
 int isFull(struct Stack *stack){
-    return stack->pointer == STACK_SIZE - 1;
+    return stack->pointer == stack->size - 1;
 }
 
 int isEmpty(struct Stack *stack){
     return stack->pointer == -1;
 }
+

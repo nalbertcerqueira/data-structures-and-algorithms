@@ -1,8 +1,8 @@
-#define STACK_SIZE 30
-
 struct Stack {
+   int size;
    int pointer;
-   int values[STACK_SIZE];
+   int *values;
+
 };
 
 struct Stack* createStack();
