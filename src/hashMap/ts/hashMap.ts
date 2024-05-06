@@ -1,4 +1,4 @@
-export class HashTable<Type extends Record<string, any>> {
+export class HashMap<Type extends Record<string, any>> {
     private values: Array<Array<[keyof Type, Type[keyof Type]]> | undefined>
     private size: number
 

@@ -1,29 +1,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "hashTable.h"
+#include "hashMap.h"
 
-struct HashTable* createHashTable(int size){
+struct HashMap* createHashMap(int size){
     if (size <= 0){
         printf("Key must be greater than 0!\n");
         return NULL;
     }
 
-    struct HashTable *hashTable = malloc(sizeof(struct HashTable));
-    hashTable->size = size;
-    hashTable->values = malloc(sizeof(struct Registry*) * size);
+    struct HashMap *hashMap = malloc(sizeof(struct HashMap));
+    hashMap->size = size;
+    hashMap->values = malloc(sizeof(struct Registry*) * size);
 
-    return hashTable;
+    return hashMap;
 }
 
-int set(int key, char *value, struct HashTable *hashTable){
+int set(int key, char *value, struct HashMap *hashMap){
     if (key <= 0){
         printf("Key must be greater than 0!\n");
         return -1;
     }
 
-    int index = hash(key, hashTable);
-    struct Registry *registry = hashTable->values[index];
+    int index = hash(key, hashMap);
+    struct Registry *registry = hashMap->values[index];
 
     //Criando o primeiro registro caso nao exista nenhum
     if (!registry){
@@ -34,7 +34,7 @@ int set(int key, char *value, struct HashTable *hashTable){
         strncpy(registry->data->value, value, strlen(value) + 1);
         registry->data->key = key;
         registry->next = NULL;
-        hashTable->values[index] = registry;
+        hashMap->values[index] = registry;
         return 0;
     }
 
@@ -64,10 +64,10 @@ int set(int key, char *value, struct HashTable *hashTable){
     return 0;
 }
 
-int delete(int key, struct HashTable *hashTable){
-    int index = hash(key, hashTable);
+int delete(int key, struct HashMap *hashMap){
+    int index = hash(key, hashMap);
     struct Registry *prevRegistry = NULL;
-    struct Registry *currRegistry = hashTable->values[index];
+    struct Registry *currRegistry = hashMap->values[index];
 
     if (!currRegistry){
         printf("Data with key: '%d' not found\n", key);
@@ -86,7 +86,7 @@ int delete(int key, struct HashTable *hashTable){
     if (prevRegistry){
         prevRegistry->next = currRegistry->next;
     } else{
-        hashTable->values[index] = currRegistry->next;
+        hashMap->values[index] = currRegistry->next;
     }
 
     free(currRegistry->data->value);
@@ -96,9 +96,9 @@ int delete(int key, struct HashTable *hashTable){
     return 0;
 }
 
-char* get(int key, struct HashTable *hashTable){
-    int index = hash(key, hashTable);
-    struct Registry *registry = hashTable->values[index];
+char* get(int key, struct HashMap *hashMap){
+    int index = hash(key, hashMap);
+    struct Registry *registry = hashMap->values[index];
 
     if (!registry){
         printf("Data with key: '%d' not found\n", key);
@@ -116,10 +116,10 @@ char* get(int key, struct HashTable *hashTable){
     return registry->data->value;
 }
 
-int print(struct HashTable *hashTable){
+int print(struct HashMap *hashMap){
     printf("{\n");
-    for (int i=0; i<hashTable->size; i++){
-        struct Registry *registry = hashTable->values[i];
+    for (int i=0; i<hashMap->size; i++){
+        struct Registry *registry = hashMap->values[i];
         if(registry){
             while (registry != NULL){
                 printf("  %d: %s\n", registry->data->key, registry->data->value);
@@ -132,7 +132,8 @@ int print(struct HashTable *hashTable){
     return 0;
 }
 
-static int hash(int key, struct HashTable *hashTable){
-    int index = key % hashTable->size;
+static int hash(int key, struct HashMap *hashMap){
+    int index = key % hashMap->size;
     return index;
 }
+
