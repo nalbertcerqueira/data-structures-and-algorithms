@@ -16,7 +16,7 @@ export class Node<Type> implements INode<Type> {
 }
 
 export class BinarySearchTree<Type> implements BinaryTree<Type> {
-    public root: INode<Type> | null
+    protected root: INode<Type> | null
 
     constructor() {
         this.root = null
