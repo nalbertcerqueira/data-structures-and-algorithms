@@ -124,29 +124,20 @@ export class DoublyLinkedList<Type> {
     }
 
     public reverse(): void {
-        let listRef = this.head
-        this.head = null
+        let current = this.head
+        let previous = null
 
-        while (listRef) {
-            const node = new DoublyNode<Type>({
-                id: listRef.id,
-                value: listRef.value,
-                next: null,
-                prev: null
-            })
+        while (current) {
+            const next = current.next
+            current.next = previous
+            current.prev = next
 
-            if (this.head === null || this.tail === null) {
-                this.head = node
-                this.tail = node
-            } else {
-                this.head.prev = node
-                node.next = this.head
-                node.prev = null
-                this.head = node
-            }
-
-            listRef = listRef.next
+            previous = current
+            current = next
         }
+
+        this.tail = this.head
+        this.head = previous
     }
 
     public isEmpty(): boolean {
