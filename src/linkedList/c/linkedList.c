@@ -145,26 +145,18 @@ int reverse(struct LinkedList *list){
         return -1;
     }
 
-    struct Node *listRef = list->head;
-    struct Node *current;
-    list->head = NULL;
+    struct Node *current = list->head;
+    struct Node *previous  = NULL;
 
-    while (listRef != NULL) {
-        struct Node *node = malloc(sizeof(struct Node));
-        node->id = listRef->id;
-        node->value = listRef->value;
-        node->next = NULL;
+    while (current) {
+        struct Node *next = current->next;
+        current->next = previous;
 
-        if (list->head == NULL){
-            list->head = node;
-        } else {
-            node->next = list->head;
-            list->head = node;
-        }
-        current = listRef;
-        listRef = listRef->next;
-        free(current);
+        previous = current;
+        current = next;
     }
+
+    list->head = previous;
 
     return 0;
 }

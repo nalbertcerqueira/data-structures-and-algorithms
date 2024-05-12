@@ -161,30 +161,20 @@ int reverse(struct DoublyLinkedList *list){
         return -1;
     }
 
-    struct DoublyNode *listRef = list->head;
-    struct DoublyNode *current;
-    list->head = NULL;
+    struct DoublyNode *current = list->head;
+    struct DoublyNode *previous  = NULL;
 
-    while (listRef != NULL) {
-        struct DoublyNode *node = malloc(sizeof(struct DoublyNode));
-        node->id = listRef->id;
-        node->value = listRef->value;
-        node->prev = NULL;
-        node->next = NULL;
+    while (current) {
+        struct DoublyNode *next = current->next;
+        current->next = previous;
+        current->prev = next;
 
-        if (list->head == NULL){
-            list->head = node;
-            list->tail = node;
-        } else {
-            list->head->prev = node;
-            node->next = list->head;
-            node->prev = NULL;
-            list->head = node;
-        }
-        current = listRef;
-        listRef = listRef->next;
-        free(current);
+        previous = current;
+        current = next;
     }
+
+    list->tail = list->head;
+    list->head = previous;
 
     return 0;
 }
