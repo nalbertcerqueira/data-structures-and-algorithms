@@ -130,21 +130,18 @@ export class LinkedList<Type> {
     }
 
     public reverse(): void {
-        let listRef = this.head
-        this.head = null
+        let current = this.head
+        let previous = null
 
-        while (listRef) {
-            const node = new Node<Type>(listRef.id, listRef.value, null)
+        while (current) {
+            const next = current.next
+            current.next = previous
 
-            if (this.head === null) {
-                this.head = node
-            } else {
-                node.next = this.head
-                this.head = node
-            }
-
-            listRef = listRef.next
+            previous = current
+            current = next
         }
+
+        this.head = previous
     }
 
     public isEmpty(): boolean {
