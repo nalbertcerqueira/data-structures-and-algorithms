@@ -11,6 +11,21 @@ struct AVLBinaryTree* createAVLBinaryTree(){
     return tree;
 }
 
+struct AVLNode* createAVLNode(int id, char *data){
+    struct AVLNode *node = malloc(sizeof(struct AVLNode));
+    int dataLength = strlen(data) + 1;
+
+    node->id = id;
+    node->height = 0;
+    node->data = malloc(sizeof(char) * dataLength);
+    node->left = NULL;
+    node->right = NULL;
+
+    strncpy(node->data, data, dataLength);
+
+    return node;
+}
+
 int insert(struct AVLBinaryTree *tree, int id, char *data){
     struct AVLNode *rootNode = insertAndBalance(id, data, tree->root, tree);
 
@@ -261,13 +276,7 @@ static struct AVLNode* deleteAndBalance(int id, struct AVLNode *root, struct AVL
 static struct AVLNode* insertAndBalance(int id, char *data, struct AVLNode *root, struct AVLBinaryTree *tree){
     if (root == NULL) {
         tree->nodeCount += 1;
-        struct AVLNode *node = malloc(sizeof(struct AVLNode));
-        node->id = id;
-        node->height = 0;
-        node->data = malloc(sizeof(char) * strlen(data) + 1);
-        node->left = NULL;
-        node->right = NULL;
-        strncpy(node->data, data, strlen(data) + 1);
+        struct AVLNode *node = createAVLNode(id, data);
         return node;
     }
 
