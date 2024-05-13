@@ -7,6 +7,12 @@ export interface INode<Type> {
     right: INode<Type> | null
 }
 
+export interface INodeAVL<Type> extends INode<Type> {
+    height: number
+    left: INodeAVL<Type> | null
+    right: INodeAVL<Type> | null
+}
+
 export interface BinaryTree<Type> {
     print(): void
     isEmpty(): boolean
