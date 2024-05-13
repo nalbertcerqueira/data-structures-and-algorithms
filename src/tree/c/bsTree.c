@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "binaryTree.h"
+#include "bsTree.h"
 
 struct BinaryTree* createBinaryTree(){
     struct BinaryTree *tree = malloc(sizeof(struct BinaryTree));
@@ -9,6 +9,20 @@ struct BinaryTree* createBinaryTree(){
     tree->nodeCount = 0;
 
     return tree;
+}
+
+struct Node* createNode(int id, char *data){
+    struct Node *node = malloc(sizeof(struct Node));
+    int dataLength = strlen(data) + 1;
+
+    node->id = id;
+    node->data = malloc(sizeof(char) * dataLength);
+    node->left = NULL;
+    node->right = NULL;
+
+    strncpy(node->data, data, dataLength);
+
+    return node;
 }
 
 int insert(struct BinaryTree *tree, int id, char *data){
@@ -19,14 +33,8 @@ int insert(struct BinaryTree *tree, int id, char *data){
         return -1;
     }
 
-    struct Node *node = malloc(sizeof(struct Node));
-    node->left = NULL;
-    node->right = NULL;
-    node->id = id;
-    node->data = malloc(sizeof(char) * (strlen(data) + 1));
-    strncpy(node->data, data, strlen(data) + 1);
-
     tree->nodeCount += 1;
+    struct Node *node = createNode(id, data);
 
     if (leaf == NULL){
         tree->root = node;
@@ -119,7 +127,6 @@ char* min(struct BinaryTree *tree){
     }
 
     return current->data;
-
 }
 
 char* max(struct BinaryTree *tree){
@@ -135,7 +142,6 @@ char* max(struct BinaryTree *tree){
     }
 
     return current->data;
-
 }
 
 int isEmpty(struct BinaryTree *tree){
@@ -169,13 +175,11 @@ static struct Node* deleteNode(struct BinaryTree *tree, struct Node *node, int i
             free(node->data);
             free(node);
             return NULL;
-
         } else if (!(node->left && node->right)){
             struct Node *temp = node->left ? node->left : node->right;
             free(node->data);
             free(node);
             return temp;
-
         } else {
             struct Node *current = node->left;
             struct Node *previous = NULL;
@@ -198,9 +202,6 @@ static struct Node* deleteNode(struct BinaryTree *tree, struct Node *node, int i
 
             free(current->data);
             free(current);
-
-
-            return node;
         }
     }
 
