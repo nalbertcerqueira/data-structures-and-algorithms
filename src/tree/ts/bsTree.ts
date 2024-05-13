@@ -7,11 +7,11 @@ export class Node<Type> implements INode<Type> {
     public left: INode<Type> | null
     public right: INode<Type> | null
 
-    constructor({ id, data, left, right }: INode<Type>) {
+    constructor(id: number, data: Type) {
         this.id = id
         this.data = data
-        this.left = left
-        this.right = right
+        this.left = null
+        this.right = null
     }
 }
 
@@ -23,7 +23,7 @@ export class BinarySearchTree<Type> implements BinaryTree<Type> {
     }
 
     public insert(id: number, data: Type): void {
-        const newNode = new Node({ id, data, left: null, right: null })
+        const newNode = new Node(id, data)
 
         if (this.root === null) {
             this.root = newNode
