@@ -136,4 +136,3 @@ static int hash(int key, struct HashMap *hashMap){
     int index = key % hashMap->size;
     return index;
 }
-
