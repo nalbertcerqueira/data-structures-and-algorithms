@@ -19,3 +19,24 @@ export function bSearch(values: number[], target: number): number {
 
     return -1
 }
+
+export function recursiveBSearch(values: number[], target: number) {
+    return main(0, values.length - 1, values)
+
+    function main(lIndex: number, rIndex: number, values: number[]) {
+        const middleIndex = Math.floor((lIndex + rIndex) / 2)
+        const pivot = values[middleIndex]
+
+        if (lIndex > rIndex) {
+            return -1
+        }
+
+        if (target > pivot) {
+            return main(middleIndex + 1, rIndex, values)
+        } else if (target < pivot) {
+            return main(lIndex, middleIndex - 1, values)
+        }
+
+        return middleIndex
+    }
+}
