@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 int bSearch(int *arr, int arrLength, int target){
     int leftIndex = 0;
     int rightIndex = arrLength - 1;
