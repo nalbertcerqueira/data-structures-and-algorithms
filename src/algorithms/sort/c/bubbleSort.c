@@ -1,16 +1,19 @@
 int* bubbleSort(int *arr, int arrLength) {
-    int isSorted = 0;
+    int temp;
 
-    while(!isSorted){
-        isSorted = 1;
+    for (int i=0; i<arrLength - 1; i++){
+        int isSorted = 1;
 
-        for (int j = 0; j < arrLength - 1; j++) {
+        for (int j = 0; j < arrLength -i - 1; j++) {
             if (arr[j] > arr[j + 1]) {
-                int temp = arr[j];
+                temp = arr[j];
                 arr[j] = arr[j + 1];
                 arr[j + 1] = temp;
                 isSorted = 0;
             }
+        }
+        if(isSorted){
+            break;
         }
     }
 
