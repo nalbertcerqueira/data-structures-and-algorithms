@@ -1,4 +1,8 @@
 export function bubbleSort(values: number[]): void {
+    if (values.length <= 1) {
+        return
+    }
+
     for (let i = 0; i < values.length - 1; i++) {
         let isSorted = true
 
