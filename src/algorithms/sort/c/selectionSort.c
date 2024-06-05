@@ -1,6 +1,5 @@
 #include <stdio.h>
 
-
 int selectionSort(int *arr, int arrLength){
     if (arrLength <= 0 ){
         printf("Array length must be greater than 0");

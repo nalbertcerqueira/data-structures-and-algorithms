@@ -8,7 +8,7 @@ export class Node<Type> implements INode<Type> {
     ) {}
 }
 
-export class DyanmicStack<Type> {
+export class DynamicStack<Type> {
     private head: INode<Type> | null
 
     constructor() {
