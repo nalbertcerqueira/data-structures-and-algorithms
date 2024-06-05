@@ -6,7 +6,7 @@ Abaixo segue a lista dos algoritmos e estruturas de dados implementados em `C`e 
 
 ## Algoritmos
 
--   [x] [Busca binária](https://nalbert)
+-   [x] Busca binária
 -   [x] Bubble sort
 -   [x] Selection sort
 -   [x] Insertion sort
