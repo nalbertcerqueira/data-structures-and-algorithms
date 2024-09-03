@@ -21,12 +21,8 @@ export class LinkedList<Type> {
         this.nextId += 1
         const node = new Node(this.nextId, value, null)
 
-        if (this.head !== null) {
-            this.head = node
-        } else {
-            node.next = this.head
-            this.head = node
-        }
+        node.next = this.head
+        this.head = node
 
         return node.id
     }
